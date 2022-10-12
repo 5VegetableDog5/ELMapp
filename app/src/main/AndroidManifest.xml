@@ -13,7 +13,7 @@
             android:theme="@style/Theme.ELMapp"
             tools:targetApi="30">
         <activity
-                android:name=".registered_Activity"
+                android:name=".Activities.registered_Activity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
