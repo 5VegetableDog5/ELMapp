@@ -1,5 +1,6 @@
 package com.example.elmapp.Activities;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,17 +11,14 @@ import com.example.elmapp.R;
 import com.example.elmapp.TcpClient.Client;
 import com.example.elmapp.TcpClient.OneParametersCallable;
 
-import java.net.ConnectException;
-
-public class registered_Activity extends AppCompatActivity implements View.OnClickListener{
+public class Login_Activity extends AppCompatActivity implements View.OnClickListener{
 
     private final String serverIP = "192.168.25.85";
 
     private final int port = 25601;
 
-    private boolean TCPAvailable = false;
-
     Button LoginButton;
+    Button RegisteredButton;
 
     EditText id_EditText;
     EditText password_EditText;
@@ -28,14 +26,18 @@ public class registered_Activity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registered);
+        setContentView(R.layout.activity_login);
 
         id_EditText = findViewById(R.id.ID_editText);
         password_EditText = findViewById(R.id.password_editText);
 
+        //登录按钮初始化
         LoginButton = findViewById(R.id.login_button);
         LoginButton.setOnClickListener(this::onClick);
 
+        //注册按钮初始化
+        RegisteredButton = findViewById(R.id.registered_button);
+        RegisteredButton.setOnClickListener(this::onClick);
 
         TCPconnect();
 
@@ -49,7 +51,6 @@ public class registered_Activity extends AppCompatActivity implements View.OnCli
                 Client client = new Client(serverIP,port);
                 if(!client.isNull() && client.isConnected()){
                     client.start();
-                    TCPAvailable = true;
                     Log.d("TCP","TCP connect success");
                 }
                 else Log.e("TCP","client 初始化失败");
@@ -63,6 +64,10 @@ public class registered_Activity extends AppCompatActivity implements View.OnCli
         switch (v.getId()){
             case R.id.login_button:
                 Login();
+                break;
+            case R.id.registered_button:
+                Log.d("Registered","to activity");
+                ToRegisteredActivity();
                 break;
         }
     }
@@ -84,8 +89,19 @@ public class registered_Activity extends AppCompatActivity implements View.OnCli
     }
 
     private void Login(){
-        String ID = id_EditText.getText().toString();
-        String Password = password_EditText.getText().toString();
-        Client.Login(ID,Password,new LoginCb());
+        if(Client.isConnected()){
+            String ID = id_EditText.getText().toString();
+            String Password = password_EditText.getText().toString();
+            Client.Login(ID,Password,new LoginCb());
+        }else {
+            Log.e("Login","网络未连接");
+        }
+
     }
+
+    private void ToRegisteredActivity(){
+        Intent intent = new Intent(Login_Activity.this, Registered_Activity.class);
+        startActivity(intent);
+    }
+
 }

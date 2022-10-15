@@ -248,6 +248,7 @@ public class Client extends Thread {
                             //i>500表示已经过了5s 则超时退出
                             if(i>=500){
                                 System.out.println("超时 "+i);
+                                Successcallable.call((byte)0);
                                 break;
                             }
                         } else{//获得结果
@@ -344,7 +345,7 @@ public class Client extends Thread {
     }
 
     public static boolean isConnected(){
-        return client.isConnected();
+        return (client!=null && client.isConnected());
     }
 
     public static boolean isNull(){return client==null;}
