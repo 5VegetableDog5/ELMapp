@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/go_back_selector.xml" value="0.135" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.135" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_login.xml" value="0.19972826086956522" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_registered.xml" value="0.2" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/acttivity_registered.xml" value="0.2006340579710145" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/title_bar.xml" value="0.2" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1355" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1355" />
       </map>

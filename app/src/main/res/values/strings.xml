@@ -2,6 +2,7 @@
     <string name="app_name">饿了美</string>
     <string name="login_id">账号</string>
     <string name="login_password">密码</string>
+    <string name="check_password">确认密码</string>
     <string name="login_button">登录</string>
     <string name="registered_button">注册</string>
 

@@ -13,9 +13,31 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0">
-        <TextView
-                android:text="第二个界面"
+
+        <include android:id="@+id/reUI_titlebar"
+                 layout="@layout/title_bar" android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+        <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp" android:id="@+id/textView2"/>
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/re_ID_TextEdit" android:hint="@string/login_id" android:minHeight="48dp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/re_pwd_TextEdit" tools:hint="@string/login_password" android:minHeight="48dp"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/re_checkpwd_TextEdit" android:hint="@string/check_password" android:minHeight="48dp"/>
+        <Button
+                android:text="@string/registered_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/registeredOk_button"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

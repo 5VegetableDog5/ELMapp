@@ -12,23 +12,28 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.004">
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
-                android:id="@+id/imageView"/>
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.16000003">
+
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView
+                    android:background="@mipmap/app_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/login_Image"
+                    tools:layout_centerHorizontal="true"
+            />
+        </RelativeLayout>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/ID_editText" android:minHeight="48dp" android:hint="@string/login_id"
-                android:phoneNumber="true"/>
+                android:id="@+id/loginID_editText" android:minHeight="48dp" android:hint="@string/login_id"
+                android:autofillHints="" android:inputType="number"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/password_editText" android:minHeight="48dp"
+                android:id="@+id/loginpassword_editText" android:minHeight="48dp"
                 android:hint="@string/login_password"/>
         <Button
                 android:text="@string/login_button"

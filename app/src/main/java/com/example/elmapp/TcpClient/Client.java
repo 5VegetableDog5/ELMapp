@@ -1,5 +1,8 @@
 package com.example.elmapp.TcpClient;
 
+import android.os.Looper;
+import android.util.Log;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -41,11 +44,6 @@ public class Client extends Thread {
             writer = new OutputStreamWriter(client.getOutputStream(),"GBK");
             br = new BufferedReader(
                     new InputStreamReader(client.getInputStream(), "GBK"));
-
-            //发送客户端初始化信息
-            writer.write("connectInit Type:esp8266\n" +
-                    "connectInit ID:3\n");
-            writer.flush();
 
 
 
@@ -194,18 +192,20 @@ public class Client extends Thread {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                sendStringToServer("Command:Registered."+id+"."+password);
+                Looper.prepare();
+                sendStringToServer("Registered:"+id+"."+password);
                 try {
                     //等待注册结果
                     int i = 0;
                     while (true){
                         if(RegisterFlag==0) {
                             i++;
-                            System.out.println("等待注册结果 "+i);
+                            //System.out.println("等待注册结果 "+i);
                             Thread.sleep(10);
                             //i>500表示已经过了5s 则超时退出
                             if(i>=500){
-                                System.out.println("超时 "+i);
+                                //System.out.println("超时 "+i);
+                                Successcallable.call((byte) 0);
                                 break;
                             }
                         } else{//获得结果
@@ -221,6 +221,7 @@ public class Client extends Thread {
                 }catch (Exception e){
                     throw new RuntimeException(e);
                 }
+                Looper.loop();
 
             }
         }).start();
@@ -243,11 +244,11 @@ public class Client extends Thread {
                     while (true){
                         if(LoginFlag==0) {
                             i++;
-                            System.out.println("等待注册结果 "+i);
+                            //System.out.println("等待登录结果 "+i);
                             Thread.sleep(10);
                             //i>500表示已经过了5s 则超时退出
                             if(i>=500){
-                                System.out.println("超时 "+i);
+                                //System.out.println("超时 "+i);
                                 Successcallable.call((byte)0);
                                 break;
                             }
@@ -294,6 +295,7 @@ public class Client extends Thread {
         try {
             writer.write(s+"\n");
             writer.flush();
+            Log.d("TCP","Send success:"+s);
         }catch (IOException e)
         {
             System.out.println("Client send String Error:"+e);
