@@ -1,11 +1,11 @@
 package com.example.elmapp.TcpClient;
 
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 
-public class Client extends Thread{
+public class Client extends Thread {
 
     private String ServerIP;
 
@@ -18,25 +18,31 @@ public class Client extends Thread{
     private static BufferedReader br;
 
     /*
-     *  isclosed : true è¿æ¥å…³é—­, false è¿æ¥æœªå…³é—­
+     *  isclosed : true Á¬½Ó¹Ø±Õ, false Á¬½ÓÎ´¹Ø±Õ
      * */
     static boolean isclosed = true;
 
-    private byte RegisterFlag = 0;
+    private static byte RegisterFlag = 0;
 
-    public Client(String serverIP,int port){
+    private static byte LoginFlag = 0;
+
+    private static String ID;
+
+    private static String Password;
+
+    public Client(String serverIP, int port){
         this.ServerIP = serverIP;
         this.Port = port;
         try {
             client = new Socket(serverIP,port);
             client.setKeepAlive(true);
 
-            //è¾“å…¥è¾“å‡ºæµåˆå§‹åŒ–
+            //ÊäÈëÊä³öÁ÷³õÊ¼»¯
             writer = new OutputStreamWriter(client.getOutputStream(),"GBK");
             br = new BufferedReader(
                     new InputStreamReader(client.getInputStream(), "GBK"));
 
-            //å‘é€å®¢æˆ·ç«¯åˆå§‹åŒ–ä¿¡æ¯
+            //·¢ËÍ¿Í»§¶Ë³õÊ¼»¯ĞÅÏ¢
             writer.write("connectInit Type:esp8266\n" +
                     "connectInit ID:3\n");
             writer.flush();
@@ -57,53 +63,53 @@ public class Client extends Thread{
 
         String servername = "localhost";
         int port = 25601;
-        boolean ReceiveFlag = false;//falseè¡¨ç¤ºæœªå¼€å¯å¤šçº¿ç¨‹
+        boolean ReceiveFlag = false;//false±íÊ¾Î´¿ªÆô¶àÏß³Ì
 
         System.out.println("Connect to:" + servername + " ,port:" + port);
         System.out.println("wating.........");
 
         Client client1 = new Client(servername,port);
-        if(client1.isConnected()) client1.start();
+        if(!client1.isNull() && client1.isConnected()) client1.start();
 
 
-        //ä»¥ä¸‹æ˜¯è¿æ¥æˆåŠŸåæ‰§è¡Œçš„ä»£ç 
-        //å®ç°å°†é”®ç›˜çš„è¾“å…¥å‘é€è‡³æœåŠ¡å™¨
+        //ÒÔÏÂÊÇÁ¬½Ó³É¹¦ºóÖ´ĞĞµÄ´úÂë
+        //ÊµÏÖ½«¼üÅÌµÄÊäÈë·¢ËÍÖÁ·şÎñÆ÷
         try {
             if(!(client==null))
                 while (scanner.hasNextLine()) {
                     scnStr = scanner.nextLine();
-                    System.out.println("è¾“å…¥ï¼š " + scnStr);
+                    System.out.println("ÊäÈë£º " + scnStr);
 
                     if (scnStr.equals("close")) {
 
-                        /** è¡¨ç¤ºå…³é—­è¯¥è¿æ¥
-                         * æ­¤ if è¯­å¥å†…å®ç°å…³é—­æ“çºµ å¹¶å‘æœåŠ¡å™¨å‘é€å…³é—­è¯­å¥ï¼Œå¹¶å‘Šè¯‰æœåŠ¡å™¨æˆ‘å·²å…³é—­
-                         * */
+                        /* ±íÊ¾¹Ø±Õ¸ÃÁ¬½Ó
+                          ´Ë if Óï¾äÄÚÊµÏÖ¹Ø±Õ²Ù×İ ²¢Ïò·şÎñÆ÷·¢ËÍ¹Ø±ÕÓï¾ä£¬²¢¸æËß·şÎñÆ÷ÎÒÒÑ¹Ø±Õ
+                          */
 
                         writer.write("$close$\n");
                         writer.flush();
 
-                        System.out.println("æ­£åœ¨å…³é—­è¿æ¥......");
+                        System.out.println("ÕıÔÚ¹Ø±ÕÁ¬½Ó......");
                         client.shutdownInput();
                         client.shutdownOutput();
-                        //ç¡®ä¿éƒ½å…³é—­äº†å†æ‰§è¡Œåé¢çš„è¯­å¥
+                        //È·±£¶¼¹Ø±ÕÁËÔÙÖ´ĞĞºóÃæµÄÓï¾ä
                         while (!(client.isOutputShutdown() && client.isInputShutdown())) ;
                         writer.close();
                         client.close();
-                        System.out.println("è¿æ¥å·²æ–­å¼€!");
+                        System.out.println("Á¬½ÓÒÑ¶Ï¿ª!");
 
-                        break;//é€€å‡ºå¾ªç¯
+                        break;//ÍË³öÑ­»·
                     }else if(scnStr.equals("Registered")){
-                        client1.registerUser("10086", "123456",new RegisteredCallable(){
+                        client1.registerUser("10086", "123456",new OneParametersCallable(){
                             @Override
-                            public Object call(byte flag) throws Exception {
+                            public Object call(byte flag){
                                 //System.out.println(flag);
                                 if(flag == 1){
-                                    System.out.println("æˆåŠŸ");
+                                    System.out.println("³É¹¦");
                                 }else if(flag == -1){
-                                    System.out.println("å¤±è´¥");
+                                    System.out.println("Ê§°Ü");
                                 }else {
-                                    System.out.println("è¶…æ—¶ï¼Œå¤±è´¥ï¼");
+                                    System.out.println("³¬Ê±£¬Ê§°Ü£¡");
                                 }
                                 return null;
                             }
@@ -122,14 +128,14 @@ public class Client extends Thread{
 
 
     /*
-     * å¼€å¯ä¸€ä¸ªçº¿ç¨‹ç”¨äºå¤„ç†ä¸æœåŠ¡å™¨ä¹‹é—´çš„é€šè®¯
+     * ¿ªÆôÒ»¸öÏß³ÌÓÃÓÚ´¦ÀíÓë·şÎñÆ÷Ö®¼äµÄÍ¨Ñ¶
      * */
     @Override
     public void run() {
-        //æ£€æŸ¥æ˜¯å¦è¿æ¥
+        //¼ì²éÊÇ·ñÁ¬½Ó
         if(!client.isConnected())
         {
-            System.out.println("æœªè¿æ¥");
+            System.out.println("Î´Á¬½Ó");
             return;
         }
 
@@ -155,6 +161,12 @@ public class Client extends Thread{
                         }else {
                             RegisterFlag = -1;
                         }
+                    }else if(message.contains("Login")){
+                        if(message.contains("Success")){
+                            LoginFlag = 1;
+                        }else {
+                            LoginFlag = -1;
+                        }
                     }
                     System.out.println(message);
                 }else{
@@ -165,7 +177,7 @@ public class Client extends Thread{
             if(!client.isClosed())
                 Close();
         }catch (SocketException socketException){
-            System.out.println("ä¸æœåŠ¡å™¨æ–­å¼€è¿æ¥");
+            System.out.println("Óë·şÎñÆ÷¶Ï¿ªÁ¬½Ó");
             Close();
             //throw new RuntimeException(socketException);
         } catch (Exception e)
@@ -176,41 +188,72 @@ public class Client extends Thread{
 
     }
 
+    public static void registerUser(String id, String password, OneParametersCallable Successcallable){
 
-    public void RegisteredSuccess(Callable callable){
-        try {
-            callable.call();
-        }catch (Exception e){
-            System.out.println(e);
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public void registerUser(String id, String password, RegisteredCallable Successcallable){
-
-        System.out.println("æ³¨å†Œç”¨æˆ·");
+        System.out.println("×¢²áÓÃ»§");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 sendStringToServer("Command:Registered."+id+"."+password);
                 try {
-                    //ç­‰å¾…æ³¨å†Œç»“æœ
+                    //µÈ´ı×¢²á½á¹û
                     int i = 0;
                     while (true){
                         if(RegisterFlag==0) {
                             i++;
-                            System.out.println("ç­‰å¾…æ³¨å†Œç»“æœ "+i);
+                            System.out.println("µÈ´ı×¢²á½á¹û "+i);
                             Thread.sleep(10);
-                            //i>500è¡¨ç¤ºå·²ç»è¿‡äº†5s åˆ™è¶…æ—¶é€€å‡º
+                            //i>500±íÊ¾ÒÑ¾­¹ıÁË5s Ôò³¬Ê±ÍË³ö
                             if(i>=500){
-                                System.out.println("è¶…æ—¶ "+i);
+                                System.out.println("³¬Ê± "+i);
                                 break;
                             }
-                        } else{//è·å¾—ç»“æœ
-                            //System.out.println("è·å¾—ç»“æœ "+RegisterFlag);
+                        } else{//»ñµÃ½á¹û
+                            //System.out.println("»ñµÃ½á¹û "+RegisterFlag);
                             Successcallable.call(RegisterFlag);
                             RegisterFlag = 0;
+                            break;
+                        }
+                    }
+
+                }catch (InterruptedException interruptedException){
+                    throw new RuntimeException(interruptedException);
+                }catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }).start();
+
+    }
+
+    public static void Login(String id, String password, OneParametersCallable Successcallable){
+
+        System.out.println("µÇÂ¼");
+        ID = id;
+        Password = password;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendStringToServer("connectInit ID:"+id);
+                sendStringToServer("connectInit Password:"+password);
+                try {
+                    //µÈ´ı×¢²á½á¹û
+                    int i = 0;
+                    while (true){
+                        if(LoginFlag==0) {
+                            i++;
+                            System.out.println("µÈ´ı×¢²á½á¹û "+i);
+                            Thread.sleep(10);
+                            //i>500±íÊ¾ÒÑ¾­¹ıÁË5s Ôò³¬Ê±ÍË³ö
+                            if(i>=500){
+                                System.out.println("³¬Ê± "+i);
+                                break;
+                            }
+                        } else{//»ñµÃ½á¹û
+                            //System.out.println("»ñµÃ½á¹û "+RegisterFlag);
+                            Successcallable.call(LoginFlag);
+                            LoginFlag = 0;
                             break;
                         }
                     }
@@ -233,7 +276,7 @@ public class Client extends Thread{
     {
         try {
 
-            System.out.println("å…³é—­");
+            System.out.println("¹Ø±Õ");
             client.shutdownInput();
             client.shutdownOutput();
             while (!(client.isInputShutdown()&&client.isOutputShutdown()));
@@ -246,7 +289,7 @@ public class Client extends Thread{
         }
     }
 
-    public void sendStringToServer(String s){
+    public static void sendStringToServer(String s){
         try {
             writer.write(s+"\n");
             writer.flush();
@@ -257,7 +300,7 @@ public class Client extends Thread{
 
     }
 
-    //url: ä¿å­˜æ–‡ä»¶è·¯å¾„
+    //url: ±£´æÎÄ¼şÂ·¾¶
     public static void ReceiveFile(String url,String filename,String fileLength){
 
         url = "src/Resourse/client2"+filename;
@@ -272,7 +315,7 @@ public class Client extends Thread{
             if(file.exists()) {
                 byte[] bytes = new byte[1024];
                 int length = -1;
-                long ReceiveLength = 0;//å½“å‰æ¥æ”¶çš„æ–‡ä»¶é•¿åº¦
+                long ReceiveLength = 0;//µ±Ç°½ÓÊÕµÄÎÄ¼ş³¤¶È
                 while (true) {
 
                     if(filelength-ReceiveLength>bytes.length){
@@ -288,7 +331,7 @@ public class Client extends Thread{
                     if(ReceiveLength>=filelength) break;
                 }
 
-                System.out.println("æ–‡ä»¶ " + filename + " æ¥æ”¶æˆåŠŸ");
+                System.out.println("ÎÄ¼ş " + filename + " ½ÓÊÕ³É¹¦");
 
             }else {
                 return;
@@ -300,9 +343,15 @@ public class Client extends Thread{
         }
     }
 
-    public boolean isConnected(){
+    public static boolean isConnected(){
         return client.isConnected();
     }
+
+    public static boolean isNull(){return client==null;}
+
+    public String getID(){return ID;}
+
+    public String getPassword(){return Password;}
 
 
 }
