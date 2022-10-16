@@ -1,5 +1,6 @@
 package com.example.elmapp.TcpClient;
 
+import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
@@ -7,6 +8,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Scanner;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Client extends Thread {
 
@@ -21,7 +24,7 @@ public class Client extends Thread {
     private static BufferedReader br;
 
     /*
-     *  isclosed : true Á¬½Ó¹Ø±Õ, false Á¬½ÓÎ´¹Ø±Õ
+     *
      * */
     static boolean isclosed = true;
 
@@ -33,6 +36,8 @@ public class Client extends Thread {
 
     private static String Password;
 
+    private static Context mcontext;
+
     public Client(String serverIP, int port){
         this.ServerIP = serverIP;
         this.Port = port;
@@ -40,7 +45,7 @@ public class Client extends Thread {
             client = new Socket(serverIP,port);
             client.setKeepAlive(true);
 
-            //ÊäÈëÊä³öÁ÷³õÊ¼»¯
+            //
             writer = new OutputStreamWriter(client.getOutputStream(),"GBK");
             br = new BufferedReader(
                     new InputStreamReader(client.getInputStream(), "GBK"));
@@ -61,7 +66,7 @@ public class Client extends Thread {
 
         String servername = "localhost";
         int port = 25601;
-        boolean ReceiveFlag = false;//false±íÊ¾Î´¿ªÆô¶àÏß³Ì
+        boolean ReceiveFlag = false;//false
 
         System.out.println("Connect to:" + servername + " ,port:" + port);
         System.out.println("wating.........");
@@ -70,44 +75,40 @@ public class Client extends Thread {
         if(!client1.isNull() && client1.isConnected()) client1.start();
 
 
-        //ÒÔÏÂÊÇÁ¬½Ó³É¹¦ºóÖ´ÐÐµÄ´úÂë
-        //ÊµÏÖ½«¼üÅÌµÄÊäÈë·¢ËÍÖÁ·þÎñÆ÷
+        //ä»¥ä¸‹æ˜¯è¿žæŽ¥æˆåŠŸåŽæ‰§è¡Œçš„ä»£ç 
+        //å®žçŽ°å°†é”®ç›˜çš„è¾“å…¥å‘é€è‡³æœåŠ¡å™¨
         try {
             if(!(client==null))
                 while (scanner.hasNextLine()) {
                     scnStr = scanner.nextLine();
-                    System.out.println("ÊäÈë£º " + scnStr);
+                    System.out.println("è¾“å…¥ï¼š " + scnStr);
 
                     if (scnStr.equals("close")) {
-
-                        /* ±íÊ¾¹Ø±Õ¸ÃÁ¬½Ó
-                          ´Ë if Óï¾äÄÚÊµÏÖ¹Ø±Õ²Ù×Ý ²¢Ïò·þÎñÆ÷·¢ËÍ¹Ø±ÕÓï¾ä£¬²¢¸æËß·þÎñÆ÷ÎÒÒÑ¹Ø±Õ
-                          */
 
                         writer.write("$close$\n");
                         writer.flush();
 
-                        System.out.println("ÕýÔÚ¹Ø±ÕÁ¬½Ó......");
+                        System.out.println("æ­£åœ¨å…³é—­è¿žæŽ¥......");
                         client.shutdownInput();
                         client.shutdownOutput();
-                        //È·±£¶¼¹Ø±ÕÁËÔÙÖ´ÐÐºóÃæµÄÓï¾ä
+                        //ç¡®ä¿éƒ½å…³é—­äº†å†æ‰§è¡ŒåŽé¢çš„è¯­å¥
                         while (!(client.isOutputShutdown() && client.isInputShutdown())) ;
                         writer.close();
                         client.close();
-                        System.out.println("Á¬½ÓÒÑ¶Ï¿ª!");
+                        System.out.println("è¿žæŽ¥å·²æ–­å¼€!");
 
-                        break;//ÍË³öÑ­»·
+                        break;//é€€å‡ºå¾ªçŽ¯
                     }else if(scnStr.equals("Registered")){
                         client1.registerUser("10086", "123456",new OneParametersCallable(){
                             @Override
                             public Object call(byte flag){
                                 //System.out.println(flag);
                                 if(flag == 1){
-                                    System.out.println("³É¹¦");
+                                    System.out.println("æˆåŠŸ");
                                 }else if(flag == -1){
-                                    System.out.println("Ê§°Ü");
+                                    System.out.println("å¤±è´¥");
                                 }else {
-                                    System.out.println("³¬Ê±£¬Ê§°Ü£¡");
+                                    System.out.println("è¶…æ—¶ï¼Œå¤±è´¥ï¼");
                                 }
                                 return null;
                             }
@@ -126,14 +127,14 @@ public class Client extends Thread {
 
 
     /*
-     * ¿ªÆôÒ»¸öÏß³ÌÓÃÓÚ´¦ÀíÓë·þÎñÆ÷Ö®¼äµÄÍ¨Ñ¶
+     * å¼€å¯ä¸€ä¸ªçº¿ç¨‹ç”¨äºŽå¤„ç†ä¸ŽæœåŠ¡å™¨ä¹‹é—´çš„é€šè®¯
      * */
     @Override
     public void run() {
-        //¼ì²éÊÇ·ñÁ¬½Ó
+        //æ£€æŸ¥æ˜¯å¦è¿žæŽ¥
         if(!client.isConnected())
         {
-            System.out.println("Î´Á¬½Ó");
+            System.out.println("æœªè¿žæŽ¥");
             return;
         }
 
@@ -175,7 +176,7 @@ public class Client extends Thread {
             if(!client.isClosed())
                 Close();
         }catch (SocketException socketException){
-            System.out.println("Óë·þÎñÆ÷¶Ï¿ªÁ¬½Ó");
+            System.out.println("ä¸ŽæœåŠ¡å™¨æ–­å¼€è¿žæŽ¥");
             Close();
             //throw new RuntimeException(socketException);
         } catch (Exception e)
@@ -188,28 +189,28 @@ public class Client extends Thread {
 
     public static void registerUser(String id, String password, OneParametersCallable Successcallable){
 
-        System.out.println("×¢²áÓÃ»§");
+        System.out.println("æ³¨å†Œç”¨æˆ·");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
                 sendStringToServer("Registered:"+id+"."+password);
                 try {
-                    //µÈ´ý×¢²á½á¹û
+                    //ç­‰å¾…æ³¨å†Œç»“æžœ
                     int i = 0;
                     while (true){
                         if(RegisterFlag==0) {
                             i++;
-                            //System.out.println("µÈ´ý×¢²á½á¹û "+i);
+                            //System.out.println("ç­‰å¾…æ³¨å†Œç»“æžœ "+i);
                             Thread.sleep(10);
-                            //i>500±íÊ¾ÒÑ¾­¹ýÁË5s Ôò³¬Ê±ÍË³ö
+                            //i>500è¡¨ç¤ºå·²ç»è¿‡äº†5s åˆ™è¶…æ—¶é€€å‡º
                             if(i>=500){
-                                //System.out.println("³¬Ê± "+i);
+                                //System.out.println("è¶…æ—¶ "+i);
                                 Successcallable.call((byte) 0);
                                 break;
                             }
-                        } else{//»ñµÃ½á¹û
-                            //System.out.println("»ñµÃ½á¹û "+RegisterFlag);
+                        } else{//èŽ·å¾—ç»“æžœ
+                            //System.out.println("èŽ·å¾—ç»“æžœ "+RegisterFlag);
                             Successcallable.call(RegisterFlag);
                             RegisterFlag = 0;
                             break;
@@ -230,7 +231,7 @@ public class Client extends Thread {
 
     public static void Login(String id, String password, OneParametersCallable Successcallable){
 
-        System.out.println("µÇÂ¼");
+        System.out.println("ç™»å½•");
         ID = id;
         Password = password;
         new Thread(new Runnable() {
@@ -239,21 +240,21 @@ public class Client extends Thread {
                 sendStringToServer("connectInit ID:"+id);
                 sendStringToServer("connectInit Password:"+password);
                 try {
-                    //µÈ´ý×¢²á½á¹û
+                    //ç­‰å¾…æ³¨å†Œç»“æžœ
                     int i = 0;
                     while (true){
                         if(LoginFlag==0) {
                             i++;
-                            //System.out.println("µÈ´ýµÇÂ¼½á¹û "+i);
+                            //System.out.println("ç­‰å¾…ç™»å½•ç»“æžœ "+i);
                             Thread.sleep(10);
-                            //i>500±íÊ¾ÒÑ¾­¹ýÁË5s Ôò³¬Ê±ÍË³ö
+                            //i>500è¡¨ç¤ºå·²ç»è¿‡äº†5s åˆ™è¶…æ—¶é€€å‡º
                             if(i>=500){
-                                //System.out.println("³¬Ê± "+i);
+                                //System.out.println("è¶…æ—¶ "+i);
                                 Successcallable.call((byte)0);
                                 break;
                             }
-                        } else{//»ñµÃ½á¹û
-                            //System.out.println("»ñµÃ½á¹û "+RegisterFlag);
+                        } else{//èŽ·å¾—ç»“æžœ
+                            //System.out.println("èŽ·å¾—ç»“æžœ "+RegisterFlag);
                             Successcallable.call(LoginFlag);
                             LoginFlag = 0;
                             break;
@@ -278,7 +279,7 @@ public class Client extends Thread {
     {
         try {
 
-            System.out.println("¹Ø±Õ");
+            System.out.println("å…³é—­");
             client.shutdownInput();
             client.shutdownOutput();
             while (!(client.isInputShutdown()&&client.isOutputShutdown()));
@@ -303,47 +304,61 @@ public class Client extends Thread {
 
     }
 
-    //url: ±£´æÎÄ¼þÂ·¾¶
+    //url: ä¿å­˜æ–‡ä»¶è·¯å¾„
     public static void ReceiveFile(String url,String filename,String fileLength){
 
-        url = "src/Resourse/client2"+filename;
+        url = "res/FileBuffer/New/"+filename;
         int filelength = Integer.parseInt(fileLength);
+        if(mcontext==null){
+            Log.e("File","context is null");
+        }
 
         try {
             System.out.println("Receive File "+url);
-            File file = new File(url);
+            System.out.println("File length:"+fileLength);
+            File file = new File("data/data/com.example.elmapp/files/Old/"+filename);
             DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
-            if(file.exists()) {
-                byte[] bytes = new byte[1024];
-                int length = -1;
-                long ReceiveLength = 0;//µ±Ç°½ÓÊÕµÄÎÄ¼þ³¤¶È
-                while (true) {
 
-                    if(filelength-ReceiveLength>bytes.length){
-                        if((length = dataInputStream.read(bytes, 0, bytes.length)) == -1) break;
-                    }else {
-                        if((length = dataInputStream.read(bytes, 0,(int)(filelength-ReceiveLength))) == -1) break;
-                    }
+            byte[] bytes = new byte[1024];
+            int length = -1;
+            long ReceiveLength = 0;//å½“å‰æŽ¥æ”¶çš„æ–‡ä»¶é•¿åº¦
+            while (true) {
 
-                    fileOutputStream.write(bytes, 0, length);
-                    fileOutputStream.flush();
-
-                    ReceiveLength+=length;
-                    if(ReceiveLength>=filelength) break;
+                //Log.d("File","test");
+                if(filelength-ReceiveLength>bytes.length){
+                    if((length = dataInputStream.read(bytes, 0, bytes.length)) == -1) break;
+                }else {
+                    if((length = dataInputStream.read(bytes, 0,(int)(filelength-ReceiveLength))) == -1) break;
                 }
 
-                System.out.println("ÎÄ¼þ " + filename + " ½ÓÊÕ³É¹¦");
+                fileOutputStream.write(bytes, 0, length);
+                fileOutputStream.flush();
 
-            }else {
-                return;
+                ReceiveLength+=length;
+                if(ReceiveLength>=filelength) break;
             }
+
+            System.out.println("file \"" + filename + "\" receive success");
+
+
             fileOutputStream.close();
+            mcontext =null;
 
         }catch (IOException ioException){
             System.out.println(ioException);
         }
+    }
+
+    /*public static File getFile(){
+
+    }*/
+
+    public static void getFile(Context context,String url){
+        mcontext = context;
+        sendStringToServer("Get:File:"+url);
+
     }
 
     public static boolean isConnected(){
@@ -355,6 +370,7 @@ public class Client extends Thread {
     public String getID(){return ID;}
 
     public String getPassword(){return Password;}
+
 
 
 }

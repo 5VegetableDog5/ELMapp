@@ -16,7 +16,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             tools:targetApi="30">
         <activity
-                android:name=".Shop_Activity"
+                android:name=".Activities.Shops_Activity"
                 android:exported="false"/>
         <activity
                 android:name=".Activities.Registered_Activity"

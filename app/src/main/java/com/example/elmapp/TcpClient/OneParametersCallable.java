@@ -1,6 +1,6 @@
 package com.example.elmapp.TcpClient;
 
 public interface OneParametersCallable<V> {
-    //²ÎÊı@flag 0:³¬Ê± 1:³É¹¦ -1£ºÊ§°Ü
+    //å‚æ•°@flag 0:è¶…æ—¶ 1:æˆåŠŸ -1ï¼šå¤±è´¥
     V call(byte flag) throws Exception;
 }

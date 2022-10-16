@@ -12,10 +12,13 @@ import android.os.Bundle;
 import com.example.elmapp.R;
 import com.example.elmapp.TcpClient.Client;
 import com.example.elmapp.TcpClient.OneParametersCallable;
+import com.example.elmapp.tools.mFiles;
+
+import java.io.File;
 
 public class Login_Activity extends AppCompatActivity implements View.OnClickListener{
 
-    private final String serverIP = "192.168.25.85";
+    private final String serverIP = "192.168.31.120";
 
     private final int port = 25601;
 
@@ -48,6 +51,12 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         RegisteredButton.setOnClickListener(this);
 
         TCPconnect();
+
+        mFiles.showLocalFiles();
+        mFiles.deleteAllfiles("data/data/com.example.elmapp/files/Old",true);//成功
+        mFiles.rename("data/data/com.example.elmapp/files/New","Old");//成功
+        mFiles.careteDir("data/data/com.example.elmapp/files/New");
+        mFiles.showLocalFiles();
 
 
     }
@@ -87,6 +96,8 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         public Object call(byte flag) throws Exception {
             if(flag==1){
                 Log.d("Login","Login success");
+                Test();
+                ToShopsActivity();
             }else if(flag==-1){
                 Log.e("Login","Login failed");
             }else {
@@ -125,6 +136,21 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
     private void ToRegisteredActivity(){
         Intent intent = new Intent(Login_Activity.this, Registered_Activity.class);
         startActivity(intent);
+    }
+
+    private void Test(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Client.getFile(getApplicationContext(),"src/Resourse/banner/banner1.png");
+            }
+        }).start();
+    }
+
+    private void ToShopsActivity(){
+        Intent intent = new Intent(Login_Activity.this,Shops_Activity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
