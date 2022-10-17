@@ -427,7 +427,9 @@ public class Client extends Thread {
     }*/
 
     public static void GetFile(String url,OneStringCallable Cb){
+
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 Object lock = new Object();
@@ -442,7 +444,7 @@ public class Client extends Thread {
                 System.out.println("Get file success");
                 String[] strings = url.split("/");
                 ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(strings[strings.length-1]);
+                arrayList.add("data/data/com.example.elmapp/files/New/"+strings[strings.length-1]);
                 try {
                     Cb.call(arrayList);
                 }catch (Exception e){

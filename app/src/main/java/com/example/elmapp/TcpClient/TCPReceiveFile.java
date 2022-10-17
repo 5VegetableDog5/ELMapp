@@ -25,7 +25,7 @@ public class TCPReceiveFile extends Thread{
             writer = new OutputStreamWriter(clientSocket.getOutputStream(),"GBK");
             dataInputStream = new DataInputStream(clientSocket.getInputStream());
             writer.write("Get:File:"+fileurl+"\n");
-            writer.flush();//Ïò·şÎñÆ÷·¢ÆğÎÄ¼şÇëÇó
+            writer.flush();//å‘æœåŠ¡å™¨å‘èµ·æ–‡ä»¶è¯·æ±‚
             System.out.println("TCP Receive File Init ok");
         }catch (UnknownHostException unknownHostException){
             System.out.println("TCPReceiveFile:"+unknownHostException);
@@ -38,13 +38,13 @@ public class TCPReceiveFile extends Thread{
 
     @Override
     public void run(){
-        receive();//½øÈë½ÓÊÕº¯Êı
+        receive();//è¿›å…¥æ¥æ”¶å‡½æ•°
     }
 
     public void receive(){
         try {
 
-            //ÎÄ¼ş½ÓÊÕ×¼±¸½×¶Î »ñÈ¡ÎÄ¼şĞÅÏ¢
+            //æ–‡ä»¶æ¥æ”¶å‡†å¤‡é˜¶æ®µ è·å–æ–‡ä»¶ä¿¡æ¯
             String filename = dataInputStream.readUTF();
             if(filename.equals("Null")){
                 Log.e("File","File not existed "+fileurl);
@@ -53,8 +53,8 @@ public class TCPReceiveFile extends Thread{
             System.out.println("File len:"+filelen);
 
 
-            String url = "data/data/com.example.elmapp/files/New/"+filename;//±£´æµÄ±¾µØÂ·¾¶
-            System.out.println("ÎÄ¼ş±£´æÂ·¾¶Îªurl:"+url);
+            String url = "data/data/com.example.elmapp/files/New/"+filename;//ä¿å­˜çš„æœ¬åœ°è·¯å¾„
+            System.out.println("æ–‡ä»¶ä¿å­˜è·¯å¾„ä¸ºurl:"+url);
 
             File file = new File(url);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -75,7 +75,7 @@ public class TCPReceiveFile extends Thread{
                 receivelen+=length;
                 if(receivelen>=filelen) break;
             }
-            System.out.println("ÎÄ¼ş½ÓÊÕÍê³É "+filename);
+            System.out.println("æ–‡ä»¶æ¥æ”¶å®Œæˆ "+filename);
             fileOutputStream.close();
             synchronized (object){
                 object.notifyAll();

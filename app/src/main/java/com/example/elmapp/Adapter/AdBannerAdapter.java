@@ -1,6 +1,7 @@
 package com.example.elmapp.Adapter;
 
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +25,15 @@ public class AdBannerAdapter extends FragmentPagerAdapter {
         this.files = files;
         notifyDataSetChanged();//更新界面数据
     }
+    public void addData(File file){
+        files.add(file);
+        notifyDataSetChanged();
+        Log.d("AdBannerAdapter","add a file");
+    }
+    public void reflesh(){
+        Log.d("AdBannerAdapter",String.format("file len:%d",files.size()));
+        notifyDataSetChanged();
+    }
 
     @Override
     public Fragment getItem(int position) {
@@ -37,11 +47,11 @@ public class AdBannerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return files.size();
     }
 
     public int getSize(){
-        return files == null ? 0 : files.size();
+        return files == null ? 0 : files.size()-1;
     }
 
     @Override
