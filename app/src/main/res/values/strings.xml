@@ -5,5 +5,6 @@
     <string name="check_password">确认密码</string>
     <string name="login_button">登录</string>
     <string name="registered_button">注册</string>
+    <string name="shops">店铺</string>
 
 </resources>

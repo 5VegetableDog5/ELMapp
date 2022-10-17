@@ -12,9 +12,11 @@ import android.os.Bundle;
 import com.example.elmapp.R;
 import com.example.elmapp.TcpClient.Client;
 import com.example.elmapp.TcpClient.OneParametersCallable;
+import com.example.elmapp.TcpClient.OneStringCallable;
 import com.example.elmapp.tools.mFiles;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Login_Activity extends AppCompatActivity implements View.OnClickListener{
 
@@ -142,7 +144,15 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Client.getFile(getApplicationContext(),"src/Resourse/banner/banner1.png");
+                Client.GetFile("src/Resourse/Test.txt", new OneStringCallable() {
+                    @Override
+                    public Object call(ArrayList BannerJSONS) throws Exception {
+                        if(BannerJSONS!=null){
+
+                        }
+                        return null;
+                    }
+                });
             }
         }).start();
     }

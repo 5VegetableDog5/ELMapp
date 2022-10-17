@@ -6,10 +6,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Activities.Shops_Activity">
-
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:src="@tools:sample/avatars" android:id="@+id/bannerImage"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="@string/shops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_horizontal" android:textColor="#E0F7FA" android:background="#CF6E8F"
+            android:textSize="25sp" android:padding="10sp"/>
+    <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0" android:id="@+id/adVPager"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

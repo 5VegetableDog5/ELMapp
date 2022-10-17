@@ -7,15 +7,17 @@ import android.util.Log;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Scanner;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class Client extends Thread {
 
-    private String ServerIP;
+    private static String ServerIP;
 
-    private int Port;
+    private static int Port;
 
     private static Socket client;
 
@@ -31,6 +33,11 @@ public class Client extends Thread {
     private static byte RegisterFlag = 0;
 
     private static byte LoginFlag = 0;
+
+    private static byte BannersJSONSFlag = 0;
+    private static String ReceiveFileurl = null;
+
+    private static ArrayList<String> bannerJSONS;
 
     private static String ID;
 
@@ -151,23 +158,30 @@ public class Client extends Thread {
                         Close();
                         break;
                     }else if(message.contains("File name")) {
+                        Log.e("File",message);
                         String s = message;
                         String[] strings = s.split(":");
-                        ReceiveFile("", strings[1],strings[2]);
+                        //ReceiveFile("", strings[1],strings[2]);
                     }else if(message.contains("Registered")){
                         if(message.contains("Success")){
                             RegisterFlag = 1;
                         }else {
                             RegisterFlag = -1;
                         }
-                    }else if(message.contains("Login")){
+                    }else if(message.contains("BannerJSONS")){
+                        String[] strings = message.split(":");
+                        if(strings.length>0&&strings[1]!=null){
+                            int len = Integer.parseInt(strings[1]);
+                            ReceiveBannerJSONS(len);
+                        }
+                    } else if(message.contains("Login")){
                         if(message.contains("Success")){
                             LoginFlag = 1;
                         }else {
                             LoginFlag = -1;
                         }
                     }
-                    System.out.println(message);
+                    if(message.length()<50) Log.d("TCP","receive "+message);
                 }else{
                     break;
                 }
@@ -309,38 +323,41 @@ public class Client extends Thread {
 
         url = "res/FileBuffer/New/"+filename;
         int filelength = Integer.parseInt(fileLength);
-        if(mcontext==null){
-            Log.e("File","context is null");
-        }
 
         try {
             System.out.println("Receive File "+url);
             System.out.println("File length:"+fileLength);
-            File file = new File("data/data/com.example.elmapp/files/Old/"+filename);
-            DataInputStream dataInputStream = new DataInputStream(client.getInputStream());
+            File file = new File("data/data/com.example.elmapp/files/New/"+filename);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
 
-            byte[] bytes = new byte[1024];
+            char[] chars = new char[512];
             int length = -1;
             long ReceiveLength = 0;//当前接收的文件长度
+
             while (true) {
 
-                //Log.d("File","test");
-                if(filelength-ReceiveLength>bytes.length){
-                    if((length = dataInputStream.read(bytes, 0, bytes.length)) == -1) break;
+                if(filelength-ReceiveLength>(chars.length)){
+                    Log.e("EEEEEEEEEEEEE",String.valueOf((chars.length*2)));
+                    if((length = br.read(chars, 0, (chars.length))) == -1) break;
                 }else {
-                    if((length = dataInputStream.read(bytes, 0,(int)(filelength-ReceiveLength))) == -1) break;
-                }
 
-                fileOutputStream.write(bytes, 0, length);
+                    int a = (int) (filelength-ReceiveLength);
+                    Log.e("DDDDDDDDDDDDDDD",String.valueOf(a));
+                    //System.out.println("文件长度过短 此次接收"+a+"byte");
+                    length = br.read(chars,0,a);
+                }
+                Log.e("EEEEEEEEEEEEE",String.valueOf(filelength));
+                fileOutputStream.write(getBytes(chars), 0, length);
                 fileOutputStream.flush();
 
                 ReceiveLength+=length;
+                System.out.println("ReceiveLength:"+ReceiveLength);
                 if(ReceiveLength>=filelength) break;
             }
-
+            Log.e("File",String.valueOf(ReceiveLength));
             System.out.println("file \"" + filename + "\" receive success");
+            ReceiveFileurl = file.getPath();
 
 
             fileOutputStream.close();
@@ -351,14 +368,99 @@ public class Client extends Thread {
         }
     }
 
+    public static void GetallBanners(OneStringCallable cb){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendStringToServer("Get:JSONS:Banners");
+                int i = 0;
+                try {
+                    while (true){
+                        if(BannersJSONSFlag==0) {
+                            i++;
+                            //System.out.println("等待登录结果 "+i);
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            //i>500表示已经过了5s 则超时退出
+                            if(i>=500){
+                                //System.out.println("超时 "+i);
+                                cb.call(null);
+                                break;
+                            }
+                        } else{//获得结果
+                            //System.out.println("获得结果 "+RegisterFlag);
+                            cb.call(bannerJSONS);
+                            BannersJSONSFlag = 0;
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    Log.e("BannerJSONS","error ReceiveBannerJSONS:"+e);
+                }
+            }
+        }).start();
+    }
+
+    public void ReceiveBannerJSONS(int len){
+        int i = 0;
+        String message;
+        bannerJSONS = new ArrayList<>();
+        try {
+            while ((message = br.readLine())!=null && !client.isClosed()){
+                bannerJSONS.add(message);
+                if((i+1) >= len) break;
+                i++;
+            }
+            Log.d("Banners","receive bannersJSONS success");
+            BannersJSONSFlag = 1;//表示接收完成
+        }catch (IOException ioException){
+            System.out.println("ReceiveBannerJSONS error :"+ioException);
+        }
+
+    }
+
     /*public static File getFile(){
 
     }*/
 
-    public static void getFile(Context context,String url){
-        mcontext = context;
-        sendStringToServer("Get:File:"+url);
+    public static void GetFile(String url,OneStringCallable Cb){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Object lock = new Object();
+                new TCPReceiveFile(ServerIP,Port,url,lock).start();
+                synchronized (lock){
+                    try {
+                        lock.wait();
+                    }catch (InterruptedException interruptedException){
+                        System.out.println("ERROR GetFile:"+interruptedException);
+                    }
+                }
+                System.out.println("Get file success");
+                String[] strings = url.split("/");
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add(strings[strings.length-1]);
+                try {
+                    Cb.call(arrayList);
+                }catch (Exception e){
+                    Log.e("File","Get File Cb "+e);
+                }
 
+            }
+        }).start();
+
+    }
+
+    public static byte[] getBytes(char[] chars) {
+        Charset cs = Charset.forName("UTF-8");
+        CharBuffer cb = CharBuffer.allocate(chars.length);
+        cb.put(chars);
+        cb.flip();
+        ByteBuffer bb = cs.encode(cb);
+        return bb.array();
     }
 
     public static boolean isConnected(){
