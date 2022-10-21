@@ -34,10 +34,12 @@ public class Client extends Thread {
 
     private static byte LoginFlag = 0;
 
-    private static byte BannersJSONSFlag = 0;
+    private static byte bannersJSONSFlag = 0;
+    private static byte shopsJSONSFlag = 0;
     private static String ReceiveFileurl = null;
 
     private static ArrayList<String> bannerJSONS;
+    private static ArrayList<String> shopJSONS;
 
     private static String ID;
 
@@ -173,6 +175,12 @@ public class Client extends Thread {
                         if(strings.length>0&&strings[1]!=null){
                             int len = Integer.parseInt(strings[1]);
                             ReceiveBannerJSONS(len);
+                        }
+                    } else if(message.contains("ShopJSONS")){
+                        String[] strings = message.split(":");
+                        if(strings.length>0&&strings[1]!=null){
+                            int len = Integer.parseInt(strings[1]);
+                            ReceiveShopJSONS(len);
                         }
                     } else if(message.contains("Login")){
                         if(message.contains("Success")){
@@ -368,7 +376,7 @@ public class Client extends Thread {
         }
     }
 
-    public static void GetallBanners(OneStringCallable cb){
+    public static void getallBanners(OneStringCallable cb){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -376,7 +384,7 @@ public class Client extends Thread {
                 int i = 0;
                 try {
                     while (true){
-                        if(BannersJSONSFlag==0) {
+                        if(bannersJSONSFlag ==0) {
                             i++;
                             //System.out.println("等待登录结果 "+i);
                             try {
@@ -393,7 +401,7 @@ public class Client extends Thread {
                         } else{//获得结果
                             //System.out.println("获得结果 "+RegisterFlag);
                             cb.call(bannerJSONS);
-                            BannersJSONSFlag = 0;
+                            bannersJSONSFlag = 0;
                             break;
                         }
                     }
@@ -403,6 +411,44 @@ public class Client extends Thread {
             }
         }).start();
     }
+
+    public static void getallShops(OneStringCallable cb){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendStringToServer("Get:JSONS:Shops");
+                int i = 0;
+                try {
+                    while (true){
+                        if(shopsJSONSFlag ==0) {
+                            i++;
+                            //System.out.println("等待登录结果 "+i);
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            //i>500表示已经过了5s 则超时退出
+                            if(i>=500){
+                                //System.out.println("超时 "+i);
+                                cb.call(null);
+                                break;
+                            }
+                        } else{//获得结果
+                            //System.out.println("获得结果 "+RegisterFlag);
+                            cb.call(shopJSONS);
+                            shopsJSONSFlag = 0;
+                            break;
+                        }
+                    }
+                }catch (Exception e){
+                    Log.e("ShopJSONS","error ReceiveShopJSONS:"+e);
+                }
+            }
+        }).start();
+    }
+
+
 
     public void ReceiveBannerJSONS(int len){
         int i = 0;
@@ -415,16 +461,29 @@ public class Client extends Thread {
                 i++;
             }
             Log.d("Banners","receive bannersJSONS success");
-            BannersJSONSFlag = 1;//表示接收完成
+            bannersJSONSFlag = 1;//表示接收完成
         }catch (IOException ioException){
             System.out.println("ReceiveBannerJSONS error :"+ioException);
         }
 
     }
 
-    /*public static File getFile(){
-
-    }*/
+    public void ReceiveShopJSONS(int len){
+        int i = 0;
+        String message;
+        shopJSONS = new ArrayList<>();
+        try {
+            while ((message = br.readLine())!=null && !client.isClosed()){
+                shopJSONS.add(message);
+                if((i+1) >= len) break;
+                i++;
+            }
+            Log.d("Banners","receive bannersJSONS success");
+            shopsJSONSFlag = 1;//表示接收完成
+        }catch (IOException ioException){
+            System.out.println("ReceiveBannerJSONS error :"+ioException);
+        }
+    }
 
     public static void GetFile(String url,OneStringCallable Cb){
 
