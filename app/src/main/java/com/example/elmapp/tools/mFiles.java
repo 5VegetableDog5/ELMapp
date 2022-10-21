@@ -5,14 +5,23 @@ import android.util.Log;
 import java.io.File;
 
 public class mFiles {
+    public static void fileCacheInit(){
+        File file1 = new File("data/data/com.example.elmapp/files");
+        File file2 = new File("data/data/com.example.elmapp/files/New");
+        File file3 = new File("data/data/com.example.elmapp/files/Old");
+
+        if(!file1.exists()) careteDir("data/data/com.example.elmapp/files");
+        if(!file2.exists()) careteDir("data/data/com.example.elmapp/files/New");
+        if(!file3.exists()) careteDir("data/data/com.example.elmapp/files/Old");
+    }
     public static boolean careteDir(String url){
         File file = new File(url);
         if(!file.exists()) {
-            file.mkdir();
-            Log.d("File","create new File success");
+            if(file.mkdir())
+                Log.d("File","create new File success:"+url);
             return true;
         }
-        Log.e("File","create new File error:Maybe new file is exists");
+        Log.e("File","create new File error:Maybe new file is exists"+url);
         return false;
     }
 
@@ -40,7 +49,7 @@ public class mFiles {
     public static void rename(String fileurl,String newName){
         File oldfile = new File(fileurl);
         if(!oldfile.exists()){
-            Log.e("File","rename error:old file not exists");
+            Log.e("File","rename error:old file not exists "+fileurl);
             return;
         }
 
@@ -52,7 +61,7 @@ public class mFiles {
             if(oldfile.renameTo(newfile)){
                 Log.d("File","rename success");
             }
-        }else Log.e("File", "rename error:newfile existsed "+newfileurl);
+        }else Log.e("File", "rename error:newfile is existsed "+newfileurl);
     }
 
     /*

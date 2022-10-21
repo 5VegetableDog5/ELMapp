@@ -54,6 +54,10 @@ public class Login_Activity extends AppCompatActivity implements View.OnClickLis
 
         TCPconnect();
 
+        File file = new File("data/data/com.example.elmapp/files");
+        if(file.exists())Log.d("File","files root exists");
+        else Log.e("----------------","---------------------");
+        mFiles.fileCacheInit();
         mFiles.showLocalFiles();
         mFiles.deleteAllfiles("data/data/com.example.elmapp/files/Old",true);//成功
         mFiles.rename("data/data/com.example.elmapp/files/New","Old");//成功
