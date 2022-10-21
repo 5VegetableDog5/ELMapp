@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="item_bg_color">#d4d4d4</color>
     <color name="color_gray">#7e7e7e</color>
-    <color name="feature_text_color">#ff7d00</color>
+    <color name="feature_text_color">#F39439</color>
     <color name="feature_bg_color">#fff8e1</color>
+    <color name="car_checked_color">#DA682B</color>
 </resources>

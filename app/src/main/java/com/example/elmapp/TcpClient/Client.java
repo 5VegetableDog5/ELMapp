@@ -411,7 +411,7 @@ public class Client extends Thread {
             }
         }).start();
     }
-
+    //购物车
     public static void getallShops(OneStringCallable cb){
         new Thread(new Runnable() {
             @Override

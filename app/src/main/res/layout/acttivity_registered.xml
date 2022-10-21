@@ -22,19 +22,22 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
-                android:id="@+id/re_ID_TextEdit" android:hint="@string/login_id" android:minHeight="48dp"/>
+                android:id="@+id/re_ID_TextEdit" android:hint="@string/login_id" android:minHeight="48dp"
+                android:autofillHints=""/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/re_pwd_TextEdit" tools:hint="@string/login_password" android:minHeight="48dp"/>
+                android:id="@+id/re_pwd_TextEdit" tools:hint="@string/login_password" android:minHeight="48dp"
+                android:autofillHints=""/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/re_checkpwd_TextEdit" android:hint="@string/check_password" android:minHeight="48dp"/>
+                android:id="@+id/re_checkpwd_TextEdit" android:hint="@string/check_password" android:minHeight="48dp"
+                android:autofillHints=""/>
         <Button
                 android:text="@string/registered_button"
                 android:layout_width="match_parent"
