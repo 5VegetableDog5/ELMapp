@@ -12,4 +12,6 @@
     <color name="feature_text_color">#F39439</color>
     <color name="feature_bg_color">#fff8e1</color>
     <color name="car_checked_color">#DA682B</color>
+    <color name="add_car_button_color">#F84C5A</color>
+    <color name="reduce_car_button_color">#676364</color>
 </resources>

@@ -10,8 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.elmapp.Activities.ShopDetail_Activity;
 import com.example.elmapp.DataBean.ShopBean;
 import com.example.elmapp.R;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ public class ShopAdapter extends BaseAdapter {
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
+
         //获取position对应条目的数据对象
         final ShopBean bean = getItem(position);
         if (bean != null) {
@@ -94,21 +97,18 @@ public class ShopAdapter extends BaseAdapter {
                 Glide.with(mContext).load(imgs.get(position)).into(vh.iv_shop_pic);
                 Log.d("Shop","load imgs success");
             }
-            /*Glide.with(mContext)
-                    .load(bean.getShopPic())
-                    .error(R.mipmap.ic_launcher)
-                    .into(vh.iv_shop_pic);*/
         }
         //每个条目的点击事件
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //跳转到店铺详情界面
-                /*if (bean == null) return;
-                Intent intent = new Intent(mContext,ShopDetailActivity.class);
+                if (bean == null) return;
+                Gson gson = new Gson();
+                Intent intent = new Intent(mContext, ShopDetail_Activity.class);
                 //把店铺的详细信息传递到店铺详情界面
-                intent.putExtra("shop", bean);
-                mContext.startActivity(intent);*/
+                intent.putExtra("shop", gson.toJson(bean));
+                mContext.startActivity(intent);
             }
         });
         return convertView;
@@ -119,7 +119,7 @@ public class ShopAdapter extends BaseAdapter {
     }
 
     //根据ShopBean内的文件路径查找在当前手机内该文件的路径
-    private String seachThisFile(String url){
+    private  String seachThisFile(String url){
         String[] strings = url.split("/");
         String fileName = strings[strings.length-1];
         return "data/data/com.example.elmapp/files/New/"+fileName;

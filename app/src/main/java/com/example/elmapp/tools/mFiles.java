@@ -79,4 +79,10 @@ public class mFiles {
             file.delete();
         }
     }
+    //根据ShopBean内的文件路径查找在当前手机内该文件的路径
+    public static String seachThisFile(String url){
+        String[] strings = url.split("/");
+        String fileName = strings[strings.length-1];
+        return "data/data/com.example.elmapp/files/New/"+fileName;
+    }
 }
