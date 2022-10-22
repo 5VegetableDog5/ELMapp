@@ -74,8 +74,8 @@ public class MeanAdapter extends BaseAdapter {
             vh.food_name_tv.setText(bean.getFoodName());
             vh.food_popularity_tv.setText(bean.getPopularity());
             vh.food_salenum_tv.setText("月售"+bean.getSaleNum()+" 好评率100%");
-            vh.food_price_tv.setText(""+bean.getPrice());
-            vh.food_count_tv.setText("￥"+bean.getCount());
+            vh.food_price_tv.setText("￥"+bean.getPrice());
+            vh.food_count_tv.setText(""+bean.getCount());//setText()不能传入int类型的数据，所以要加一个""让它转化为String
 
             if(files!=null && files.size()>position) {
                 Glide.with(context).load(files.get(position)).into(vh.food_img);

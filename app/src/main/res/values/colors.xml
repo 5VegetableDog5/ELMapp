@@ -14,4 +14,5 @@
     <color name="car_checked_color">#DA682B</color>
     <color name="add_car_button_color">#F84C5A</color>
     <color name="reduce_car_button_color">#676364</color>
+    <color name="red_color">#FF0000</color>
 </resources>

@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_car_bg.xml" value="0.1315" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_car_draw_seletor.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_or_minus_seletor.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_bg.xml" value="0.255" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_bg_selector.xml" value="0.1315" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_foods_count_bg.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/feature_bg.xml" value="0.135" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/go_back_selector.xml" value="0.135" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.135" />

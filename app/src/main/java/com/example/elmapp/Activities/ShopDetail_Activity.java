@@ -3,6 +3,7 @@ package com.example.elmapp.Activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,8 +26,10 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
 
     private ShopBean shopBean;
 
-    private TextView titlebar_back,titlebar_title,shop_dh_name,shop_dh_time,shop_dh_notice;
-    private ImageView shop_dh_img;
+    private TextView titlebar_back,titlebar_title,shop_dh_name,shop_dh_time,shop_dh_notice;//头部信息TextView
+    private TextView car_foods_count,car_foods_price_tv,car_dc_tv;//购物车TextView组件
+    private ImageView shop_dh_img,car;
+    private Button car_settled_btn;
     private MeanAdapter meanAdapter;
     private ListView foodlist;
 
@@ -56,12 +59,17 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         Log.e("---------------",mFiles.seachThisFile(shopBean.getShopPic()));
 
         //菜品list初始化
-
         foodlist = findViewById(R.id.foods_list);
         meanAdapter = new MeanAdapter(this);
         meanAdapter.setData(shopBean.getFoodList());
         getFoodsImg();
         foodlist.setAdapter(meanAdapter);
+
+        //购物车初始化
+        car_foods_count = findViewById(R.id.car_foods_count);
+        car_foods_price_tv = findViewById(R.id.car_foods_price_tv);
+        car_dc_tv = findViewById(R.id.car_dc_tv);
+        car_settled_btn = findViewById(R.id.car_settled_btn);
 
     }
 

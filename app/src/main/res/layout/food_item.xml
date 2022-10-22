@@ -14,7 +14,7 @@
             android:layout_marginStart="16dp"/>
     <TextView
             android:text="菜品名称"
-            android:layout_width="150sp"
+            android:layout_width="200sp"
             android:layout_height="wrap_content" android:id="@+id/food_name_tv"
             android:textColor="@color/black" app:layout_constraintStart_toEndOf="@+id/food_img"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="15dp"
@@ -53,7 +53,7 @@
             android:layout_width="35sp"
             android:layout_height="35sp" android:id="@+id/add_btn"
             android:background="@drawable/add_car_bg"
-            android:src="@drawable/add_car"
+            android:src="@drawable/add_car_draw_seletor"
             app:layout_constraintStart_toEndOf="@+id/food_count_tv" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="3dp"/>
     <ImageView
