@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="50sp" android:background="@color/white">
+
+    <TextView
+            android:text="菜品名称:清蒸大闸蟹"
+            android:layout_width="180sp"
+            android:layout_height="wrap_content" android:id="@+id/scli_foodname_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12sp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="12sp" android:textColor="@color/color_gray" android:textSize="18sp"/>
+    <TextView
+            android:text="￥16888"
+            android:layout_width="60sp"
+            android:layout_height="19sp" android:id="@+id/scli_foodprice_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/color_gray" app:layout_constraintEnd_toStartOf="@+id/scli_reduce_btn"
+            android:layout_marginEnd="20sp" android:layout_marginTop="15sp"/>
+    <ImageView
+            android:layout_width="25sp"
+            android:layout_height="25sp" android:id="@+id/scli_add_btn"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/add_btn_bg"
+            android:src="@drawable/add_draw_seletor"
+            android:layout_marginTop="13sp" android:layout_marginEnd="20sp"/>
+    <TextView
+            android:text="0"
+            android:layout_width="25sp"
+            android:layout_height="25sp" android:id="@+id/scli_foodcount_tv"
+            app:layout_constraintEnd_toStartOf="@+id/scli_add_btn" android:layout_marginEnd="1sp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="13sp"
+            android:gravity="center_horizontal" android:textColor="@color/black" tools:textSize="18sp"/>
+    <ImageView
+            android:layout_width="25sp"
+            android:layout_height="25sp" android:id="@+id/scli_reduce_btn"
+            app:layout_constraintEnd_toStartOf="@+id/scli_foodcount_tv" app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/reduce_draw_selector"
+            android:background="@drawable/reduce_btn_bg"
+            android:layout_marginTop="13sp" android:layout_marginEnd="1sp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

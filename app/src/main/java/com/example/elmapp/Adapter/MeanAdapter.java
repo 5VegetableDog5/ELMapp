@@ -35,6 +35,10 @@ public class MeanAdapter extends BaseAdapter {
         files.add(file);
         notifyDataSetChanged();
     }
+    public void fresh(){
+        if(foodBeans!=null)
+            notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {

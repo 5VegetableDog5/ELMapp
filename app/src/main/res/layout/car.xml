@@ -4,5 +4,5 @@
                                                    android:layout_height="50dp">
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
                android:src="@drawable/car"
-               android:background="@drawable/car_bg_selector" android:id="@+id/car"/>
+               android:background="@drawable/car_bg_selector" android:id="@+id/car" android:focusable="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
