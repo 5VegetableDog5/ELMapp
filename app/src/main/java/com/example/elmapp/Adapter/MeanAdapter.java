@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.elmapp.Activities.ShopDetail_Activity;
 import com.example.elmapp.DataBean.FoodBean;
 import com.example.elmapp.R;
 
@@ -88,6 +89,8 @@ public class MeanAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     bean.setCount(bean.getCount()+1);
                     notifyDataSetChanged();
+                    ShopDetail_Activity shopDetail_activity = (ShopDetail_Activity) context;
+                    shopDetail_activity.shoppingCarRefresh();
                 }
             });
 
@@ -98,6 +101,8 @@ public class MeanAdapter extends BaseAdapter {
                     if(bean.getCount()>0){
                         bean.setCount(bean.getCount()-1);
                         notifyDataSetChanged();
+                        ShopDetail_Activity shopDetail_activity = (ShopDetail_Activity) context;
+                        shopDetail_activity.shoppingCarRefresh();
                     }
                 }
             });

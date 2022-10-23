@@ -9,7 +9,7 @@
              app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
              android:id="@+id/detail_title_bar"/>
     <include layout="@layout/shop_detail_head"
-             android:layout_height="125dp"
+             android:layout_height="125sp"
              android:layout_width="match_parent" app:layout_constraintTop_toBottomOf="@+id/detail_title_bar"
              android:layout_marginTop="30dp" app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintEnd_toEndOf="parent" android:id="@+id/include" android:layout_marginStart="10dp"
@@ -19,17 +19,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/textView5"
             tools:textSize="25sp" android:textColor="@color/black" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include" android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/include" android:layout_marginTop="30sp"
+            android:layout_marginStart="20sp"/>
 
     <ListView
             android:layout_width="match_parent"
-            android:layout_height="483dp"
+            android:layout_height="500sp"
             app:layout_constraintTop_toBottomOf="@+id/textView5" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="20dp" android:id="@+id/foods_list"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="20dp" android:id="@+id/foods_list">
+    </ListView>
+    <include layout="@layout/shopping_car_list"
+             android:layout_width="match_parent" android:layout_height="250sp"
+             app:layout_constraintBottom_toTopOf="@+id/include2"/>
     <include layout="@layout/shopping_car" android:layout_width="match_parent" android:layout_height="60dp"
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintBottom_toBottomOf="parent"/>
+             app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/include2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

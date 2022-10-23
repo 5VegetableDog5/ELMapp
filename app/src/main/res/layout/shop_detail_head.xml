@@ -23,8 +23,8 @@
             android:textColor="@color/color_gray"/>
     <TextView
             android:text="@string/check_password"
-            android:layout_width="250dp"
-            android:layout_height="33dp" android:id="@+id/shop_dh_notice"
+            android:layout_width="250sp"
+            android:layout_height="40sp" android:id="@+id/shop_dh_notice"
             app:layout_constraintTop_toBottomOf="@+id/shop_dh_time"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="5dp"
             android:layout_marginStart="12dp" tools:textSize="12sp" android:textColor="@color/color_gray"/>

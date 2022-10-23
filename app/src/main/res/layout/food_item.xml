@@ -48,20 +48,20 @@
             android:layout_height="35sp" android:id="@+id/food_count_tv"
             android:textColor="@color/black" android:textSize="20sp"
             android:gravity="center_horizontal" app:layout_constraintBottom_toBottomOf="parent" android:padding="5sp"
-            android:layout_marginBottom="3dp" app:layout_constraintStart_toEndOf="@+id/reduce_btn"/>
+            android:layout_marginBottom="3sp" app:layout_constraintEnd_toStartOf="@+id/add_btn"/>
     <ImageView
             android:layout_width="35sp"
             android:layout_height="35sp" android:id="@+id/add_btn"
             android:background="@drawable/add_car_bg"
             android:src="@drawable/add_car_draw_seletor"
-            app:layout_constraintStart_toEndOf="@+id/food_count_tv" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="3dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="3sp"
+            android:layout_marginEnd="18sp" app:layout_constraintEnd_toEndOf="parent"/>
     <ImageView
             android:layout_width="35sp"
             android:layout_height="35sp" android:id="@+id/reduce_btn"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="3dp" app:layout_constraintStart_toEndOf="@+id/food_salenum_tv"
-            android:layout_marginStart="30dp"
+            android:layout_marginBottom="3sp"
             android:background="@drawable/reduce_car_bg"
-            android:src="@drawable/reduce_car_draw_selector"/>
+            android:src="@drawable/reduce_car_draw_selector" app:layout_constraintEnd_toStartOf="@+id/food_count_tv"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

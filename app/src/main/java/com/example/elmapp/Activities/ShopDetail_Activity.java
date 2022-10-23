@@ -1,5 +1,6 @@
 package com.example.elmapp.Activities;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import com.bumptech.glide.Glide;
 import com.example.elmapp.Adapter.MeanAdapter;
 import com.example.elmapp.DataBean.FoodBean;
@@ -19,16 +21,19 @@ import com.example.elmapp.tools.mFiles;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShopDetail_Activity extends AppCompatActivity implements View.OnClickListener {
 
-    private ShopBean shopBean;
+    private static ShopBean shopBean;
 
     private TextView titlebar_back,titlebar_title,shop_dh_name,shop_dh_time,shop_dh_notice;//头部信息TextView
     private TextView car_foods_count,car_foods_price_tv,car_dc_tv;//购物车TextView组件
-    private ImageView shop_dh_img,car;
+    private TextView shopping_carlist_clear_tv;//购物清单组件
+    private ImageView shop_dh_img;
+    private ImageView car;
     private Button car_settled_btn;
     private MeanAdapter meanAdapter;
     private ListView foodlist;
@@ -66,13 +71,26 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         foodlist.setAdapter(meanAdapter);
 
         //购物车初始化
-        car_foods_count = findViewById(R.id.car_foods_count);
-        car_foods_price_tv = findViewById(R.id.car_foods_price_tv);
-        car_dc_tv = findViewById(R.id.car_dc_tv);
-        car_settled_btn = findViewById(R.id.car_settled_btn);
+        car_foods_count = findViewById(R.id.car_foods_count);//已选购的菜品总数量
+        car_foods_price_tv = findViewById(R.id.car_foods_price_tv);//菜品总价
+        car_dc_tv = findViewById(R.id.car_dc_tv);//配送费
+        car_settled_btn = findViewById(R.id.car_settled_btn);//结算按钮
+        car = findViewById(R.id.car);//购物车图标
+        shoppingCarRefresh();//刷新控件
+
+        //购物清单初始化
+        shopping_carlist_clear_tv = findViewById(R.id.shopping_carlist_clear_tv);
+        Drawable icon = ResourcesCompat.getDrawable(getResources(),R.drawable.clear,null);
+        if (icon!=null){
+            icon.setBounds(0,0,40,40);
+            shopping_carlist_clear_tv.setCompoundDrawables(icon,null,null,null);
+        }
 
     }
 
+    /*
+    * 获取所有菜品图片
+    * */
     private void getFoodsImg(){
         List<FoodBean> foodBeans = shopBean.getFoodList();
         for(FoodBean foodBean:foodBeans){
@@ -80,6 +98,9 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    /*
+    * 获取菜品图片的回调函数
+    * */
     private class getFoodImgCb implements OneStringCallable{
 
         @Override
@@ -94,6 +115,34 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
 
             }
             return null;
+        }
+    }
+
+    public void shoppingCarRefresh(){
+        BigDecimal lump_sum = new BigDecimal(0);//总价
+        int count_sum = 0;//总菜品数量
+        for(FoodBean foodBean:shopBean.getFoodList()){
+            lump_sum = lump_sum.add(foodBean.getPrice().multiply(new BigDecimal(foodBean.getCount())));
+            count_sum+=foodBean.getCount();
+        }
+
+        //如果总价大于0
+        if(lump_sum.compareTo(new BigDecimal(0))==1){
+            car_foods_count.setText(""+count_sum);//更新已选购的菜品总数量
+            car_foods_count.setVisibility(View.VISIBLE);//将菜品总数量设为可见
+            car_foods_price_tv.setText("￥ "+lump_sum.add(shopBean.getDistributionCost()));//更新菜品总价
+            car_dc_tv.setText("另需配送费￥"+shopBean.getDistributionCost());//配送费更新
+            car_dc_tv.setVisibility(View.VISIBLE);//配送费可见
+            car_settled_btn.setText("去结算");
+            car_settled_btn.setEnabled(true);//按钮可用
+            car.setSelected(true);//购物车图标亮起
+        }else {
+            car_foods_count.setVisibility(View.INVISIBLE);//菜品总数量不可见
+            car_foods_price_tv.setText("未选购商品");//菜品总价更新
+            car_dc_tv.setVisibility(View.INVISIBLE);//配送费不可见
+            car_settled_btn.setText("￥"+shopBean.getOfferPrice()+"起送");//结算按钮
+            car_settled_btn.setEnabled(false);//设置按钮不可用
+            car.setSelected(false);//购物车暗淡
         }
     }
     @Override

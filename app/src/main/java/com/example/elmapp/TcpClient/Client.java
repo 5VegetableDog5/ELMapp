@@ -316,9 +316,14 @@ public class Client extends Thread {
 
     public static void sendStringToServer(String s){
         try {
-            writer.write(s+"\n");
-            writer.flush();
-            Log.d("TCP","Send success:"+s);
+            if(s!=null){
+                writer.write(s+"\n");
+                writer.flush();
+                Log.d("TCP","Send success:"+s);
+            }else {
+                Log.e("TCP","SendStringToServer error : s is null");
+            }
+
         }catch (IOException e)
         {
             System.out.println("Client send String Error:"+e);
