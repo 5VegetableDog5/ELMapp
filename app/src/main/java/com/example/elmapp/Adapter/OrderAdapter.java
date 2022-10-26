@@ -45,11 +45,11 @@ public class OrderAdapter extends BaseAdapter {
         int i = 0;
         for(FoodBean foodBean:foodBeanList){
             if(foodBean.getCount()>0) {
-                if(i == position) break;
-                i++;
+                if(i == position) return foodBeanList.get(i);
             }
+            i++;
         }
-        return foodBeanList.get(i);
+        return null;
     }
 
     @Override
@@ -77,8 +77,7 @@ public class OrderAdapter extends BaseAdapter {
             vh.oi_foodname_tv.setText(foodBean.getFoodName());
             vh.oi_food_totalprice_tv.setText("￥"+foodBean.getPrice().multiply(new BigDecimal(foodBean.getCount())));
             vh.oi_foodcount_tv.setText("x"+foodBean.getCount());
-
-            Log.e("-----------",mFiles.seachThisFile(foodBean.getFoodpic()));
+            Log.d("Order","x"+foodBean.getCount()+" "+foodBean.getFoodName());
             Glide.with(context).load(mFiles.seachThisFile(foodBean.getFoodpic())).into(vh.oi_food_img);
         }
 

@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.elmapp.Adapter.AdBannerAdapter;
 import com.example.elmapp.Adapter.ShopAdapter;
 import com.example.elmapp.DataBean.BannerBean;
+import com.example.elmapp.DataBean.FoodBean;
 import com.example.elmapp.DataBean.ShopBean;
 import com.example.elmapp.R;
 import com.example.elmapp.TcpClient.Client;
@@ -42,6 +43,7 @@ public class Shops_Activity extends AppCompatActivity {
         Client.getallShops( new getShopsCb());
         shopAdapter = new ShopAdapter(this);
         shopListView.setAdapter(shopAdapter);
+
 
         //获取banners
         ViewPager viewPager = findViewById(R.id.adVPager);

@@ -81,7 +81,6 @@ public class MeanAdapter extends BaseAdapter {
             vh.food_salenum_tv.setText("月售"+bean.getSaleNum()+" 好评率100%");
             vh.food_price_tv.setText("￥"+bean.getPrice());
             vh.food_count_tv.setText(""+bean.getCount());//setText()不能传入int类型的数据，所以要加一个""让它转化为String
-
             if(files!=null && files.size()>position) {
                 Glide.with(context).load(files.get(position)).into(vh.food_img);
                 Log.d("Food","load imgs success");
@@ -92,6 +91,7 @@ public class MeanAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     bean.setCount(bean.getCount()+1);
+                    //Log.d("MeanAdapter","add "+bean.getFoodName()+" "+bean.getCount());
                     notifyDataSetChanged();
                     ShopDetail_Activity shopDetail_activity = (ShopDetail_Activity) context;
                     shopDetail_activity.shoppingCarRefresh();

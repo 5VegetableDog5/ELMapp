@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">饿了美</string>
-    <string name="login_id">账号</string>
-    <string name="login_password">密码</string>
+    <string name="login_id">账 号</string>
+    <string name="login_password">密 码</string>
     <string name="check_password">确认密码</string>
     <string name="login_button">登录</string>
     <string name="registered_button">注册</string>
@@ -9,5 +9,6 @@
     <string name="ad">广告</string>
     <string name="food_count_init">0</string>
     <string name="ask_clear_carList">确认清空购物车？</string>
+    <string name="elmapp_name">饿了美</string>
 
 </resources>

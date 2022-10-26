@@ -520,6 +520,16 @@ public class Client extends Thread {
 
     }
 
+    public static void submitOrder(String json){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendStringToServer("NewOrder￥"+json);
+            }
+        }).start();
+
+    }
+
     public static byte[] getBytes(char[] chars) {
         Charset cs = Charset.forName("UTF-8");
         CharBuffer cb = CharBuffer.allocate(chars.length);

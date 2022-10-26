@@ -52,11 +52,12 @@ public class ShoppingCarListAdapter extends BaseAdapter {
         int i = 0;
         for(FoodBean foodBean:foodBeanList){
             if(foodBean.getCount()>0) {
-                if(i == position) break;
-                i++;
+                if(i+1 == position) return foodBeanList.get(i);
+
             }
+            i++;
         }
-        return foodBeanList.get(i);
+        return null;
     }
 
     @Override

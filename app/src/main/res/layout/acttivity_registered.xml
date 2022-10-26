@@ -5,17 +5,27 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.Registered_Activity">
+        tools:context=".Activities.Registered_Activity" android:background="#ECEAEA">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="265sp"
+            tools:layout_editor_absoluteX="45dp" app:layout_constraintTop_toBottomOf="@+id/reUI_titlebar"
+            android:background="@drawable/order_jbs_bg"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="500sp"
+            tools:layout_editor_absoluteX="136dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/blue_jbs_bg"/>
+    <include android:id="@+id/reUI_titlebar"
+             layout="@layout/title_bar" android:layout_width="match_parent" android:layout_height="wrap_content"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0">
-
-        <include android:id="@+id/reUI_titlebar"
-                 layout="@layout/title_bar" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/reUI_titlebar" android:layout_marginTop="180sp">
 
         <EditText
                 android:layout_width="match_parent"
@@ -23,24 +33,25 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/re_ID_TextEdit" android:hint="@string/login_id" android:minHeight="48dp"
-                android:autofillHints=""/>
+                android:autofillHints="" android:textColorHint="#455A64"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/re_pwd_TextEdit" tools:hint="@string/login_password" android:minHeight="48dp"
-                android:autofillHints=""/>
+                android:autofillHints="" android:textColorHint="#546E7A"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/re_checkpwd_TextEdit" android:hint="@string/check_password" android:minHeight="48dp"
-                android:autofillHints=""/>
+                android:autofillHints="" android:textColorHint="#546E7A"/>
         <Button
                 android:text="@string/registered_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/registeredOk_button"/>
+                android:layout_height="wrap_content" android:id="@+id/registeredOk_button"
+                android:background="#2196F3" android:textColor="#212121"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
