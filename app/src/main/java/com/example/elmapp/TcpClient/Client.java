@@ -316,7 +316,7 @@ public class Client extends Thread {
 
     public static void sendStringToServer(String s){
         try {
-            if(s!=null){
+            if(s!=null && !s.isEmpty()){
                 writer.write(s+"\n");
                 writer.flush();
                 Log.d("TCP","Send success:"+s);

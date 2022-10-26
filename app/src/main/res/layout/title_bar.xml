@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="?android:attr/colorActivatedHighlight">
+        android:background="@color/pay_btn_color">
     <TextView
             android:id="@+id/tv_back"
             android:layout_width="50dp"

@@ -2,6 +2,7 @@ package com.example.elmapp.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,7 +71,6 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         shop_dh_notice = findViewById(R.id.shop_dh_notice);shop_dh_notice.setText(shopBean.getShopNotice());
         shop_dh_img = findViewById(R.id.shop_dh_img);
         Glide.with(this).load(mFiles.seachThisFile(shopBean.getShopPic())).into(shop_dh_img);
-        Log.e("---------------",mFiles.seachThisFile(shopBean.getShopPic()));
 
         //菜品list初始化
         foodlist = findViewById(R.id.foods_list);
@@ -84,6 +84,7 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         car_foods_price_tv = findViewById(R.id.car_foods_price_tv);//菜品总价
         car_dc_tv = findViewById(R.id.car_dc_tv);//配送费
         car_settled_btn = findViewById(R.id.car_settled_btn);//结算按钮
+        car_settled_btn.setOnClickListener(this);
         car = findViewById(R.id.car);//购物车图标
         car.setOnClickListener(this);
         shoppingCarRefresh();//刷新控件
@@ -223,7 +224,13 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
             }
         });
 
+    }
 
+    public void goToOrderActivity(){
+        Gson gson = new Gson();
+        Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra("shopbean",gson.toJson(shopBean));
+        this.startActivity(intent);
     }
 
     @Override
@@ -246,6 +253,9 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.tv_back:
                 finish();
+                break;
+            case R.id.car_settled_btn:
+                goToOrderActivity();
                 break;
         }
     }

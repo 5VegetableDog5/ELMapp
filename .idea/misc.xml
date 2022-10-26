@@ -7,6 +7,7 @@
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_car_draw_seletor.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_draw_seletor.xml" value="0.1355" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/add_or_minus_seletor.xml" value="0.1315" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/black_oval_bg.xml" value="0.1355" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_bg.xml" value="0.255" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_bg_selector.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/car_foods_count_bg.xml" value="0.1315" />
@@ -15,6 +16,9 @@
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/go_back_selector.xml" value="0.135" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.135" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/item_bg_selector.xml" value="0.1315" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/order_detail.xml" value="0.1355" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/order_jbs_bg.xml" value="0.1355" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/pay_btn_bg.xml" value="0.1355" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/reduce_btn_bg.xml" value="0.1355" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/reduce_car_bg.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/reduce_car_draw_selector.xml" value="0.1315" />
@@ -22,6 +26,7 @@
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/shop_detail_head_bg.xml" value="0.1315" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/drawable/shopitem_bg_seletor.xml" value="0.135" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_login.xml" value="0.19972826086956522" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_order.xml" value="0.264" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_registered.xml" value="0.2" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_shop.xml" value="0.19927536231884058" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/activity_shop_detail.xml" value="0.264" />
@@ -30,6 +35,7 @@
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/car.xml" value="0.264" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/car_list_clear_dialog.xml" value="0.4" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/food_item.xml" value="0.4" />
+        <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/order_item.xml" value="0.4" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/shop_detail_head.xml" value="0.536" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/shop_item.xml" value="0.19927536231884058" />
         <entry key="..\:/Collage/Android Project/ELMapp/app/src/main/res/layout/shopping_car.xml" value="0.4" />
