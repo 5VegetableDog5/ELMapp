@@ -30,10 +30,16 @@
     </ListView>
     <include layout="@layout/shopping_car_list"
              android:layout_width="match_parent" android:layout_height="250sp"
-             app:layout_constraintBottom_toTopOf="@+id/include2" android:id="@+id/shopping_car_list_layout"/>
+             app:layout_constraintBottom_toTopOf="@+id/include2" android:id="@+id/shopping_car_list_layout"
+             app:layout_constraintStart_toStartOf="parent"/>
     <include layout="@layout/shopping_car" android:layout_width="match_parent" android:layout_height="60dp"
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/include2"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

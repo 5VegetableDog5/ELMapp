@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="clear_car_Dialog_s" parent="@android:style/Theme.Dialog">
+        <!--设置界面无标题栏-->
+        <item name="android:windowIsFloating">true</item>     <!--对话框浮在Activity之上-->
+        <item name="android:windowIsTranslucent">true</item> <!--设置对话框背景为透明-->
+        <item name="android:windowNoTitle">true</item>         <!--设置界面无标题-->
+        <!--设置窗体背景透明-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--设置对话框内容背景透明-->
+        <item name="android:background">@android:color/transparent</item>
+        <!--设置对话框背景有半透明遮障层-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

@@ -1,8 +1,11 @@
 package com.example.elmapp.Activities;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.res.ResourcesCompat;
 import com.bumptech.glide.Glide;
 import com.example.elmapp.Adapter.MeanAdapter;
@@ -52,6 +56,7 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void viewInit(){
         //标题栏初始化
         titlebar_back = findViewById(R.id.tv_back);
@@ -85,13 +90,25 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
 
         //购物清单初始化
         shopping_carlist_clear_tv = findViewById(R.id.shopping_carlist_clear_tv);
+        shopping_carlist_clear_tv.setOnClickListener(this);//清空购物车按钮初始化
         Drawable icon = ResourcesCompat.getDrawable(getResources(),R.drawable.clear,null);
         if (icon!=null){
             icon.setBounds(0,0,40,40);
             shopping_carlist_clear_tv.setCompoundDrawables(icon,null,null,null);
         }//清空textView初始化
         shopping_car_list_layout = findViewById(R.id.shopping_car_list_layout);
-        shopping_car_list_layout.setVisibility(View.INVISIBLE);//初始设置购物车清单布局为不可见
+        shopping_car_list_layout.setVisibility(View.GONE);//初始设置购物车清单布局为不可见
+        //点击购物车列表界面外的其他部分会隐藏购物车列表界面
+        shopping_car_list_layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(shopping_car_list_layout.getVisibility() == View.VISIBLE)
+                {
+                    shopping_car_list_layout.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
         shoppingCarListAdapter = new ShoppingCarListAdapter(this);
         shopping_car_list = findViewById(R.id.shopping_car_list);
         shopping_car_list.setAdapter(shoppingCarListAdapter);//购物车清单list数据适配器初始化
@@ -148,6 +165,7 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
                     || (lump_sum.compareTo(shopBean.getOfferPrice()) == 0)){//如果当前总价大于等于起送价
                 car_settled_btn.setText("去结算");
                 car_settled_btn.setEnabled(true);//按钮可用
+                car_settled_btn.setSelected(true);
                // Log.e("-------------------",lump_sum+" "+shopBean.getOfferPrice());
             }
 
@@ -158,6 +176,7 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
             car_dc_tv.setVisibility(View.INVISIBLE);//配送费不可见
             car_settled_btn.setText("￥"+shopBean.getOfferPrice()+"起送");//结算按钮
             car_settled_btn.setEnabled(false);//设置按钮不可用
+            car_settled_btn.setSelected(false);
             car.setSelected(false);//购物车暗淡
         }
         if(meanAdapter!=null) meanAdapter.fresh();
@@ -173,6 +192,40 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
         return totalcount;
     }
 
+    //清空购物车对话框生成
+    public void clearCarListDialog(){
+        final Dialog clearDialog = new Dialog(ShopDetail_Activity.this,R.style.clear_car_Dialog_s);
+        clearDialog.setContentView(R.layout.car_list_clear_dialog);
+        clearDialog.show();
+
+        TextView clear_car_list_tv = clearDialog.findViewById(R.id.clear_car_list_tv);
+        TextView clear_cancel_car_list_tv = clearDialog.findViewById(R.id.clear_cancel_car_list_tv);
+
+        //取消按钮事件
+        clear_cancel_car_list_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearDialog.dismiss();
+            }
+        });
+
+        //确认清空按钮事件
+        clear_car_list_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //将所有商品购买数量设置为0
+                for(FoodBean foodBean:shopBean.getFoodList()){
+                    foodBean.setCount(0);
+                }
+                shoppingCarRefresh();
+                if(shopping_car_list_layout.getVisibility() == View.VISIBLE) shopping_car_list_layout.setVisibility(View.GONE);
+                clearDialog.dismiss();//结束
+            }
+        });
+
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -182,9 +235,17 @@ public class ShopDetail_Activity extends AppCompatActivity implements View.OnCli
                     if(shopping_car_list_layout.getVisibility() != View.VISIBLE){
                         shopping_car_list_layout.setVisibility(View.VISIBLE);
                     }else {//如果购物车已经显示了，则隐藏
-                        shopping_car_list_layout.setVisibility(View.INVISIBLE);
+                        shopping_car_list_layout.setVisibility(View.GONE);
                     }
+                }else if(shopping_car_list_layout.getVisibility() == View.VISIBLE){
+                    shopping_car_list_layout.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.shopping_carlist_clear_tv:
+                clearCarListDialog();
+                break;
+            case R.id.tv_back:
+                finish();
                 break;
         }
     }
